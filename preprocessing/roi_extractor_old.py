@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-# 👇 Full REGION_LANDMARKS dictionary (as provided)
+# 👇 Paste the full REGION_LANDMARKS dictionary here (truncated for preview)
 REGION_LANDMARKS = {
     "Cheeks": {
         "Left cheekbone": [50],
@@ -54,7 +54,7 @@ def extract_rois_from_landmarks(image, landmarks, margin=10):
             x_max = min(max(xs) + margin, w)
             y_min = max(min(ys) - margin, 0)
             y_max = min(max(ys) + margin, h)
-            crop = image[int(y_min):int(y_max), int(x_min):int(x_max)]
+            crop = image[y_min:y_max, x_min:x_max]
             rois[f"{primary_region}::{sub_name}"] = crop
 
     return rois
@@ -71,36 +71,26 @@ def fallback_rois(image):
         "Nose::General": image[int(h*0.4):int(h*0.6), int(w*0.45):int(w*0.55)]
     }
 
-def extract_rois(results_list, min_valid_landmarks=400, debug=False):
+def extract_rois(results_list):
     """
-    Extract ROIs from all frames using landmarks with smart fallback if too few valid points.
+    Extract ROIs from all frames using landmarks or fallback.
     """
     all_rois = []
-    fallback_count = 0
-    total_frames = len(results_list)
 
     for i, res in enumerate(results_list):
         image = res["image"]
         landmarks = res["landmarks"]
 
-        if landmarks:
-            valid_count = sum(1 for x, y in landmarks if not np.isnan(x) and not np.isnan(y))
-            if valid_count >= min_valid_landmarks:
-                rois = extract_rois_from_landmarks(image, landmarks)
-                if debug:
-                    print(f"✅ Frame {i}: Used real ROIs ({valid_count} valid landmarks)")
-            else:
-                rois = fallback_rois(image)
-                fallback_count += 1
-                if debug:
-                    print(f"⚠️ Frame {i}: Not enough valid landmarks ({valid_count}) → Fallback")
-        else:
-            rois = fallback_rois(image)
-            fallback_count += 1
-            if debug:
-                print(f"⚠️ Frame {i}: No landmarks → Fallback")
+        #if landmarks:
+        #    rois = extract_rois_from_landmarks(image, landmarks)
+        #else:
+        #    print(f"⚠️ Fallback ROI used for frame {i}")
+        #    rois = fallback_rois(image)
+
+        # 🚨 Temporarily force fallback ROIs only
+        print(f"⚠️ Using fallback ROIs for frame {i} (bypassing landmark mapping)")
+        rois = fallback_rois(image)
 
         all_rois.append(rois)
 
-    print(f"📦 Smart ROI extraction complete: fallback used in {fallback_count} / {total_frames} frames.")
     return all_rois
