@@ -20,8 +20,8 @@ if __name__ == "__main__":
 
     # ---- DATA ----
     dataset = AffectNetDataset(
-        image_dir=r"E:\AffectNet\train_set\images",
-        annotation_dir=r"E:\AffectNet\train_set\annotations"
+        image_dir=r"C:\AffectNet\train_set\images",
+        annotation_dir=r"C:\AffectNet\train_set\annotations"
     )
     dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=4)
 

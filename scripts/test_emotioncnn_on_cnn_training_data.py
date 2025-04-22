@@ -5,8 +5,8 @@ from PIL import Image
 from models.emotion_cnn import EmotionCNN
 
 # === CONFIG ===
-folder = r"E:\PHAZE-Net\data\cnn_training_data\Angry\Cheeks_Left_cheekbone"  # Adjust as needed
-checkpoint = r"E:\PHAZE-Net\checkpoints\cnn_epoch10.pth"
+folder = r"C:\PHAZE-Net\data\cnn_training_data\Angry\Cheeks_Left_cheekbone"  # Adjust as needed
+checkpoint = r"C:\PHAZE-Net\checkpoints\cnn_epoch10.pth"
 image_size = 64
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

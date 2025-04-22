@@ -8,7 +8,7 @@ from preprocessing.roi_extractor import extract_rois
 from preprocessing.data_cleaner import clean_roi_batch
 
 # ----- CONFIGURATION -----
-AFEW_PATH = r"E:\PhD Datasets\AFEW\EmotiW_2018\Train_AFEW"  # Adjust as needed
+AFEW_PATH = r"C:\PhD Datasets\AFEW\EmotiW_2018\Train_AFEW"  # Adjust as needed
 OUTPUT_DIR = "data/cnn_training_data"
 USE_CLEANING = False  # Set to True if you want to filter crops
 
